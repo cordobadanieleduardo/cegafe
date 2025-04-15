@@ -1,0 +1,497 @@
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+
+{% if 'ok' in request.GET %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>!</strong> Su mensaje se ha enviado correctamente, en breve nos pondremos en contacto con usted<strong>¡</strong>.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+
+<div class="panel-body">
+    <div class="col-xl-12 col-md-12 mb-12">    
+        <div class="card border-left-{% if obj.pk %}warning{% else %}success{% endif %} shadow h-100 py-2">
+            <form method="POST" role="form" id="frm" class="card-body"
+                action="{% if obj.pk %}{% url 'srv:servicio_edit' obj.pk %}{% elif request.user.is_anonymous %}{% url 'srv:nuevo_servicio' %}{% else %}{% url 'srv:servicio_new' %}{% endif %}"
+                enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="row no-gutters">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            {% if obj.pk %} Editar {% else %} Nuevo {% endif %} servicio mesa TIC
+                        </div>
+                        <small class="text-danger">
+                            {% if form.errors %}
+                            {% for field in form %}
+                            {% if field.errors %}
+                            {% for error in field.errors %}
+                            {{ error|escape }}
+                            {% endfor %}
+                            {% endif %}
+                            {% endfor %}
+    
+                            {% if form.non_field_errors%}
+                            {% for error in form.non_field_errors %}
+                            {{ error|escape }}
+                            {% endfor %}
+                            {% endif %}
+                            {% endif %}
+                        </small>
+    
+                        <div class="dropdown-divider"></div>
+    
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger">
+                                    <span class="fa fa-save"></span>
+                                    Guardar
+                                </button>
+                                <a type="button" class="btn btn-success" href="{% if request.user.is_anonymous %}{% url 'srv:nuevo_servicio' %}{% else %}{% url 'srv:servicio_list' %}{% endif %}">
+                                    <span class="fa fa-undo"></span>
+                                    Cancelar
+                                </a>
+                            </div>
+                        </div>
+    
+                        <div class="dropdown-divider"></div>
+    
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label for="id_email" class="form-label">Correo*:</label>
+                                {{form.email}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_fecha" class="form-label">Fecha:</label>
+                                {{form.fecha}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_dispositive" class="form-label">Dispositivo:</label>
+                                {{form.dispositive}}
+                            </div>
+                            <div class="col-md-3">
+                                <label for="id_technic" class="form-label">Asignar Técnico(a):</label>
+                                {{form.technic}}
+                            </div>
+                            <div class="col-md-6">
+                                <label for="id_content" class="form-label">Escriba brevemente el problema:</label>
+                                {{form.content}}
+                            </div>
+                            <!-- <div class="col-12">
+                                        <label for="id_qualification" class="form-label">Calificacion</label>
+                                        <input type="range" class="form-range" min="0" max="5" id="id_qualification" value="{{form.qualification.value}}">
+                                    </div> -->
+    
+                            <div class="col-md-4">
+                                <label for="id_image" class="form-label">Adjuntar imagen</label>
+                                {{form.image}}
+                            </div>
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+    
+                                    {{form.isComputer}}
+    
+                                    <label class="form-check-label" for="id_isComputer" style="cursor: pointer">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" with="80px"
+                                            height="80px">
+                                            <path fill="{% if form.isComputer.value %}red{% else %}currentColor{% endif %}"
+                                                d="M384 96l0 224L64 320 64 96l320 0zM64 32C28.7 32 0 60.7 0 96L0 320c0 35.3 28.7 64 64 64l117.3 0-10.7 32L96 416c-17.7 0-32 14.3-32 32s14.3 32 32 32l256 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-74.7 0-10.7-32L384 384c35.3 0 64-28.7 64-64l0-224c0-35.3-28.7-64-64-64L64 32zm464 0c-26.5 0-48 21.5-48 48l0 352c0 26.5 21.5 48 48 48l64 0c26.5 0 48-21.5 48-48l0-352c0-26.5-21.5-48-48-48l-64 0zm16 64l32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm-16 80c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16zm32 160a32 32 0 1 1 0 64 32 32 0 1 1 0-64z" />
+                                        </svg>
+                                        <div>
+                                            Problema del computador
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isTv}}
+                                    <label class="form-check-label" for="id_isTv" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isTv.value %}blue{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-tv fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Problema en el TV
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isEmail}}
+                                    <label class="form-check-label" for="id_isEmail" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isEmail.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-envelope fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            ¿No puede ingresar al correo?
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isVideoConferencia}}
+                                    <label class="form-check-label" for="id_isVideoConferencia" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isVideoConferencia.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-video fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            ¿No puede ingresar al <b>video conferencia</b>?
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isProblemRed}}
+                                    <label class="form-check-label" for="id_isProblemRed" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isProblemRed.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-network-wired fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Problema de la red
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isScanner}}
+                                    <label class="form-check-label" for="id_isScanner" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isScanner.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-fax fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Problema del escaner o teléfono
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+    
+    
+    
+                            <div>
+                                <div class="form-check">
+                                    {{form.isPrinter}}
+                                    <label class="form-check-label" for="id_isPrinter" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isPrinter.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-print fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Problema en la impresora
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isDb}}
+                                    <label class="form-check-label" for="id_isDb" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isDb.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-database fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Problema en base de datos
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isKeyboard}}
+                                    <label class="form-check-label" for="id_isKeyboard" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isKeyboard.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-keyboard fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Problema en teclado
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isCamera}}
+                                    <label class="form-check-label" for="id_isCamera" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isCamera.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-camera fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Problema en la cámara
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isWifi}}
+                                    <label class="form-check-label" for="id_isWifi" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isWifi.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-wifi fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            WIFI
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isMicrophone}}
+                                    <label class="form-check-label" for="id_isMicrophone" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isMicrophone.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-microphone fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Problema micrófono
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isMouse}}
+                                    <label class="form-check-label" for="id_isMouse" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isMouse.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" height="70px">
+                                                <path
+                                                    fill="{% if form.isComputer.value %}red{% else %}currentColor{% endif %}"
+                                                    d="M0 192l176 0L176 0 160 0C71.6 0 0 71.6 0 160l0 32zm0 32L0 352c0 88.4 71.6 160 160 160l64 0c88.4 0 160-71.6 160-160l0-128-192 0L0 224zm384-32l0-32C384 71.6 312.4 0 224 0L208 0l0 192 176 0z" />
+                                            </svg>
+                                        </span>
+                                        <div>
+                                            Problema en el mouse
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isFileLost}}
+                                    <label class="form-check-label" for="id_isFileLost" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isFileLost.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-folder-open fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            ¿Se perdieron archivos?
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isLaptopMedical}}
+                                    <label class="form-check-label" for="id_isLaptopMedical" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isLaptopMedical.value %}darkorange{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-laptop-medical fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Portatil en recuperación
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isPantallaAzul}}
+                                    <label class="form-check-label" for="id_isPantallaAzul" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isPantallaAzul.value %}blue{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-laptop-code fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Pantalla azul Window
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isPowerOff}}
+                                    <label class="form-check-label" for="id_isPowerOff" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isPowerOff.value %}red{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-power-off fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            No enciende o prende
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isAudio}}
+                                    <label class="form-check-label" for="id_isAudio" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isAudio.value %}blue{% else %}currentColor{% endif %};">
+                                            <i class="fas fa-volume-up fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Problema en Audio
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+    
+    
+                            <div class="col-md-2">
+                                <div class="form-check">
+                                    {{form.isMantenimiento}}
+                                    <label class="form-check-label" for="id_isMantenimiento" style="cursor: pointer">
+                                        <span
+                                            style=" color: {% if form.isMantenimiento.value %}blue{% else %}currentColor{% endif %};">
+                                            <i class="fas fa- fa-5x"></i>
+                                        </span>
+                                        <div>
+                                            Solicita mantenimiento preventivo al equipo
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+    
+    
+    
+    
+    
+    
+    
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="dropdown-divider"></div>
+    
+                <div class="row">
+                    <div class="col">
+                        <button type="submit" class="btn btn-danger">
+                            <span class="fa fa-save"></span>
+                            Guardar
+                        </button>
+                        <a type="button" class="btn btn-success" href="{% if request.user.is_anonymous %}{% url 'srv:nuevo_servicio' %}{% else %}{% url 'srv:servicio_list' %}{% endif %}">
+                            <span class="fa fa-undo"></span>
+                            Cancelar
+                        </a>
+                    </div>
+                </div>
+            </form>    
+        </div>
+    </div>
+{% endblock %}
+
+{% block js_page %}
+    <script>
+        $(function () {
+            // $("#sidebarToggle").click();  
+            // $("#id_vehiculo").val("{{ obj.vehiculo.placa }}").change();
+            // $("#id_fecha").val("{{ obj.fecha|date:'d/m/Y' }}");
+            // $("#id_content").attr({ autofocus: true });
+            if ("{{p.rol}}" === "tecnico" || "{{p.rol}}" === "usuario") {
+                $("#id_email").attr({ disabled: true });
+                if ("{{p.rol}}" === "tecnico" ){
+                    $("#id_technic").attr({ disabled: true });
+                }
+                
+            //     $("#id_estado_label").attr({ hidden: true });
+            //     // $('#id_vehiculo option').attr('disabled', 'disabled');
+            //     $('#id_vehiculo_label').hide();
+            //     $('#id_vehiculo').hide();
+            }
+        });
+
+        $('#id_technic').select2({
+            // placeholder: "Seleccione técnico(a)",
+            // allowClear: true
+        });
+
+        $('#id_dispositive').select2({
+            // placeholder: "Seleccione técnico(a)",
+            // allowClear: true
+        });
+
+        $("#id_fecha").datetimepicker({
+            format: 'd/m/Y H:i:s',
+            timepicker: true,
+            // defaultDate:new Date(),
+            // minDate: 0, /** AAAA,MM,DD Fecha inicio */
+            // maxDate: new Date( new Date().getFullYear(), 12, 31),
+        });  
+    </script>
+
+{% endblock %}

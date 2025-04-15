@@ -1,0 +1,558 @@
+
+
+{% extends 'base/base.html' %}
+
+{% block page_content %}
+
+
+
+
+<div class="panel-body">
+
+    <div class="col-xl-12 col-md-12 mb-12">        
+        {% if obj.pk  %}
+        <div class="card border-left-warning shadow h-100 py-2">
+        <form method="POST" role="form" id="frm2" class="card-body" action="{% url 'srv:servicio_edit' obj.pk %}" enctype="multipart/form-data">
+        {% else %}
+        <div class="card border-left-success shadow h-100 py-2">
+        <form method="POST" role="form" id="frm2" class="card-body" action="{% url 'srv:servicio_new' %}" enctype="multipart/form-data">
+        {% endif %}
+            {% csrf_token %}
+            <div class="row no-gutters">
+                <div class="col mr-2">
+                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                        {% if obj.pk %} Editar  {% else %} Nuevo {% endif %}  servicio mesa TIC  
+                    </div>  
+                    <small class="text-danger">
+                        {% if form.errors %}
+                            {% for field in form %}
+                                {% if field.errors %}
+                                    {% for error in field.errors %}
+                                        {{ error|escape }}
+                                    {% endfor %}
+                                {% endif %}
+                            {% endfor %}
+                        
+                            {% if form.non_field_errors%}
+                                {% for error in form.non_field_errors %}
+                                    {{ error|escape }}
+                                {% endfor %}
+                            {% endif %}
+                        {% endif %}
+                    </small>
+
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <label for="id_email" class="form-label">Correo*:</label>                            
+                             {{form.email}}
+                        </div>
+                        <div class="col-md-3">
+                            <label for="id_fecha" class="form-label">Fecha:</label>                        
+                            {{form.fecha}}
+                        </div>
+                        <div class="col-md-3">
+                            <label for="id_dispositive" class="form-label">Dispositivo:</label>
+                            <!-- {{dispositive.label}} -->
+                            {{form.dispositive}}
+                        </div>
+                        <div class="col-md-6">
+                            <label for="id_content" class="form-label">Describa brevemente el problema:</label>                        
+                            {{form.content}}
+                        </div>
+                        <div class="col-12">
+                            <!-- <label for="inputAddress2" class="form-label">Address 2</label>
+                            <input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor"> -->
+                            <label for="id_qualification" class="form-label">Calificacion</label>
+                            <input type="range" class="form-range" min="0" max="5" id="id_qualification">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="inputCity" class="form-label">City</label>
+                            <input type="text" class="form-control" id="inputCity">
+                        </div>
+                        
+                        <div class="col-md-2">
+                            <label for="inputZip" class="form-label">Zip</label>
+                            <input type="text" class="form-control" id="inputZip">
+                        </div>
+                        
+                        <div class="col-md-4">
+                            <label for="id_image" class="form-label">Adjuntar imagen</label>
+                            {{form.image}}
+                        </div> 
+                        <div class="col-12">
+                            <div class="form-check">
+                                <!-- <input class="form-check-input" type="checkbox" id="id"> -->
+                                {{form.isComputer}}
+                                <label class="form-check-label" for="id_isComputer">
+                                    Es computador
+                                </label>    
+                            </div>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+
+            <div class="dropdown-divider"></div>
+
+            <div class="row">
+                <div class="col">
+                    <button type="submit" class="btn btn-danger">
+                        <span class="fa fa-save"></span> 
+                        Guardar
+                    </button>
+                    <a type="button" class="btn btn-success" href="{% url 'srv:servicio_list' %}">
+                        Cancelar
+                    </a>
+                </div>
+            </div>
+        </form>
+
+
+        </div>
+    </div>
+
+
+    <div class="dropdown-divider"></div>
+
+    <div>
+        {% if obj.pk  %}
+        <form method="POST" role="form" id="frm" class="form-inline" action="{% url 'srv:servicio_edit' obj.pk %}" enctype="multipart/form-data">
+        {% else %}
+        <form method="POST" role="form" id="frm" class="form-inline" action="{% url 'srv:servicio_new' %}" enctype="multipart/form-data">
+        {% endif %}
+            <div class="col-xl-12 col-md-12 mb-12">
+                {% if obj.pk %}
+                <div class="card border-left-warning shadow h-100 py-2">
+                {% else %}
+                <div class="card border-left-success shadow h-100 py-2">
+                {% endif %}
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    {% if obj.pk %} Editar gasto del conductor {% endif %}
+                                </div>                                
+                                {% csrf_token %}
+                                <small class="text-danger">
+                                    {% if form.errors %}
+                                        {% for field in form %}
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    {{ error|escape }}
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    
+                                        {% if form.non_field_errors%}
+                                            {% for error in form.non_field_errors %}
+                                                {{ error|escape }}
+                                            {% endfor %}
+                                        {% endif %}
+                                    {% endif %}
+                                </small>
+
+                                <div class="dropdown-divider"></div>
+
+                                <!-- <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-danger">
+                                            <span class="fa fa-save"></span> 
+                                            Guardar
+                                        </button>
+                                        <a type="button" class="btn btn-success" href="{% url 'srv:servicio_list' %}">
+                                            Cancelar
+                                        </a>
+                                    </div>
+                                </div> -->
+
+                                <div class="dropdown-divider"></div>
+                                {#{form.as_p}#}
+                                <div class="dropdown-divider"></div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                <div class="dropdown-divider"></div>
+
+
+
+                                <div class="row row-cols-1 row-cols-md-3 mb-3 text-center">
+                                    <div class="col">
+                                      <div class="card mb-4 rounded-3 shadow-sm">
+                                        <div class="card-header py-3">
+                                          <h4 class="my-0 fw-normal">Free</h4>
+                                        </div>
+                                        <div class="card-body">
+                                          <h1 class="card-title pricing-card-title">$0<small class="text-body-secondary fw-light">/mo</small></h1>
+                                          <ul class="list-unstyled mt-3 mb-4">
+                                            <li>10 users included</li>
+                                            <li>2 GB of storage</li>
+                                            <li>Email support</li>
+                                            <li>Help center access</li>
+                                          </ul>
+                                          <button type="button" class="w-100 btn btn-lg btn-outline-primary">Sign up for free</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="card mb-4 rounded-3 shadow-sm">
+                                        <div class="card-header py-3">
+                                          <h4 class="my-0 fw-normal">Pro</h4>
+                                        </div>
+                                        <div class="card-body">
+                                          <h1 class="card-title pricing-card-title">$15<small class="text-body-secondary fw-light">/mo</small></h1>
+                                          <ul class="list-unstyled mt-3 mb-4">
+                                            <li>20 users included</li>
+                                            <li>10 GB of storage</li>
+                                            <li>Priority email support</li>
+                                            <li>Help center access</li>
+                                          </ul>
+                                          <button type="button" class="w-100 btn btn-lg btn-primary">Get started</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                    <div class="col">
+                                      <div class="card mb-4 rounded-3 shadow-sm border-primary">
+                                        <div class="card-header py-3 text-bg-primary border-primary">
+                                          <h4 class="my-0 fw-normal">Enterprise</h4>
+                                        </div>
+                                        <div class="card-body">
+                                          <h1 class="card-title pricing-card-title">$29<small class="text-body-secondary fw-light">/mo</small></h1>
+                                          <ul class="list-unstyled mt-3 mb-4">
+                                            <li>30 users included</li>
+                                            <li>15 GB of storage</li>
+                                            <li>Phone and email support</li>
+                                            <li>Help center access</li>
+                                          </ul>
+                                          <button type="button" class="w-100 btn btn-lg btn-primary">Contact us</button>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+
+
+
+
+
+
+
+
+                                <div>
+
+
+                                <i class="fas fa-fax"  width="100px" height="101px"></i>
+18 
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"  with="100px" height="100px"> <path d="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"/></svg>
+17
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"  with="100px" height="100px"> <path d="M54.2 202.9C123.2 136.7 216.8 96 320 96s196.8 40.7 265.8 106.9c12.8 12.2 33 11.8 45.2-.9s11.8-33-.9-45.2C549.7 79.5 440.4 32 320 32S90.3 79.5 9.8 156.7C-2.9 169-3.3 189.2 8.9 202s32.5 13.2 45.2 .9zM320 256c56.8 0 108.6 21.1 148.2 56c13.3 11.7 33.5 10.4 45.2-2.8s10.4-33.5-2.8-45.2C459.8 219.2 393 192 320 192s-139.8 27.2-190.5 72c-13.3 11.7-14.5 31.9-2.8 45.2s31.9 14.5 45.2 2.8c39.5-34.9 91.3-56 148.2-56zm64 160a64 64 0 1 0 -128 0 64 64 0 1 0 128 0z"/></svg>
+16
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512" with="100px" height="100px"><path d="M0 192l176 0L176 0 160 0C71.6 0 0 71.6 0 160l0 32zm0 32L0 352c0 88.4 71.6 160 160 160l64 0c88.4 0 160-71.6 160-160l0-128-192 0L0 224zm384-32l0-32C384 71.6 312.4 0 224 0L208 0l0 192 176 0z"/></svg>
+                                15
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" with="100px" height="100px"> <path d="M384 96l0 224L64 320 64 96l320 0zM64 32C28.7 32 0 60.7 0 96L0 320c0 35.3 28.7 64 64 64l117.3 0-10.7 32L96 416c-17.7 0-32 14.3-32 32s14.3 32 32 32l256 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-74.7 0-10.7-32L384 384c35.3 0 64-28.7 64-64l0-224c0-35.3-28.7-64-64-64L64 32zm464 0c-26.5 0-48 21.5-48 48l0 352c0 26.5 21.5 48 48 48l64 0c26.5 0 48-21.5 48-48l0-352c0-26.5-21.5-48-48-48l-64 0zm16 64l32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16s7.2-16 16-16zm-16 80c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16s-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16zm32 160a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/></svg>
+                               14
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" with="100px" height="100px"> <path d="M128 0C92.7 0 64 28.7 64 64l0 96 64 0 0-96 226.7 0L384 93.3l0 66.7 64 0 0-66.7c0-17-6.7-33.3-18.7-45.3L400 18.7C388 6.7 371.7 0 354.7 0L128 0zM384 352l0 32 0 64-256 0 0-64 0-16 0-16 256 0zm64 32l32 0c17.7 0 32-14.3 32-32l0-96c0-35.3-28.7-64-64-64L64 192c-35.3 0-64 28.7-64 64l0 96c0 17.7 14.3 32 32 32l32 0 0 64c0 35.3 28.7 64 64 64l256 0c35.3 0 64-28.7 64-64l0-64zM432 248a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>
+                                13
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" with="100px" height="100px"> <path d="M448 80l0 48c0 44.2-100.3 80-224 80S0 172.2 0 128L0 80C0 35.8 100.3 0 224 0S448 35.8 448 80zM393.2 214.7c20.8-7.4 39.9-16.9 54.8-28.6L448 288c0 44.2-100.3 80-224 80S0 332.2 0 288L0 186.1c14.9 11.8 34 21.2 54.8 28.6C99.7 230.7 159.5 240 224 240s124.3-9.3 169.2-25.3zM0 346.1c14.9 11.8 34 21.2 54.8 28.6C99.7 390.7 159.5 400 224 400s124.3-9.3 169.2-25.3c20.8-7.4 39.9-16.9 54.8-28.6l0 85.9c0 44.2-100.3 80-224 80S0 476.2 0 432l0-85.9z"/></svg>
+                                12
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"  with="100px" height="100px"> <path d="M256 64l128 0 0 64-128 0 0-64zM240 0c-26.5 0-48 21.5-48 48l0 96c0 26.5 21.5 48 48 48l48 0 0 32L32 224c-17.7 0-32 14.3-32 32s14.3 32 32 32l96 0 0 32-48 0c-26.5 0-48 21.5-48 48l0 96c0 26.5 21.5 48 48 48l160 0c26.5 0 48-21.5 48-48l0-96c0-26.5-21.5-48-48-48l-48 0 0-32 256 0 0 32-48 0c-26.5 0-48 21.5-48 48l0 96c0 26.5 21.5 48 48 48l160 0c26.5 0 48-21.5 48-48l0-96c0-26.5-21.5-48-48-48l-48 0 0-32 96 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-256 0 0-32 48 0c26.5 0 48-21.5 48-48l0-96c0-26.5-21.5-48-48-48L240 0zM96 448l0-64 128 0 0 64L96 448zm320-64l128 0 0 64-128 0 0-64z"/></svg>
+                                11
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" with="100px" height="100px"> <path d="M448 80l0 48c0 44.2-100.3 80-224 80S0 172.2 0 128L0 80C0 35.8 100.3 0 224 0S448 35.8 448 80zM393.2 214.7c20.8-7.4 39.9-16.9 54.8-28.6L448 288c0 44.2-100.3 80-224 80S0 332.2 0 288L0 186.1c14.9 11.8 34 21.2 54.8 28.6C99.7 230.7 159.5 240 224 240s124.3-9.3 169.2-25.3zM0 346.1c14.9 11.8 34 21.2 54.8 28.6C99.7 390.7 159.5 400 224 400s124.3-9.3 169.2-25.3c20.8-7.4 39.9-16.9 54.8-28.6l0 85.9c0 44.2-100.3 80-224 80S0 476.2 0 432l0-85.9z"/></svg>
+                            10
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"  with="100px" height="100px"> <path d="M0 128C0 92.7 28.7 64 64 64l256 0c35.3 0 64 28.7 64 64l0 256c0 35.3-28.7 64-64 64L64 448c-35.3 0-64-28.7-64-64L0 128zM559.1 99.8c10.4 5.6 16.9 16.4 16.9 28.2l0 256c0 11.8-6.5 22.6-16.9 28.2s-23 5-32.9-1.6l-96-64L416 337.1l0-17.1 0-128 0-17.1 14.2-9.5 96-64c9.8-6.5 22.4-7.2 32.9-1.6z"/></svg>
+                                9
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"  with="100px" height="100px"> <path d="M64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l320 0c35.3 0 64-28.7 64-64l0-242.7c0-17-6.7-33.3-18.7-45.3L352 50.7C340 38.7 323.7 32 306.7 32L64 32zm0 96c0-17.7 14.3-32 32-32l192 0c17.7 0 32 14.3 32 32l0 64c0 17.7-14.3 32-32 32L96 224c-17.7 0-32-14.3-32-32l0-64zM224 288a64 64 0 1 1 0 128 64 64 0 1 1 0-128z"/></svg>
+
+                                
+8
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" with="100px" height="100px"> <path d="M64 64l0 288 512 0 0-288L64 64zM0 64C0 28.7 28.7 0 64 0L576 0c35.3 0 64 28.7 64 64l0 288c0 35.3-28.7 64-64 64L64 416c-35.3 0-64-28.7-64-64L0 64zM128 448l384 0c17.7 0 32 14.3 32 32s-14.3 32-32 32l-384 0c-17.7 0-32-14.3-32-32s14.3-32 32-32z"/></svg>
+
+ 7d                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" with="100px" height="100px"> <path d="M64 96c0-35.3 28.7-64 64-64l384 0c35.3 0 64 28.7 64 64l0 256-64 0 0-256L128 96l0 256-64 0L64 96zM0 403.2C0 392.6 8.6 384 19.2 384l601.6 0c10.6 0 19.2 8.6 19.2 19.2c0 42.4-34.4 76.8-76.8 76.8L76.8 480C34.4 480 0 445.6 0 403.2zM288 160c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 48 48 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-48 0 0 48c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-48-48 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16l48 0 0-48z"/></svg>
+6
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"  with="100px" height="100px"> <path d="M192 0C139 0 96 43 96 96l0 160c0 53 43 96 96 96s96-43 96-96l0-160c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 89.1 66.2 162.7 152 174.4l0 33.6-48 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l72 0 72 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-48 0 0-33.6c85.8-11.7 152-85.3 152-174.4l0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 70.7-57.3 128-128 128s-128-57.3-128-128l0-40z"/></svg>
+                                5
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" with="100px" height="100px"> <path d="M80 160c0-35.3 28.7-64 64-64l32 0c35.3 0 64 28.7 64 64l0 3.6c0 21.8-11.1 42.1-29.4 53.8l-42.2 27.1c-25.2 16.2-40.4 44.1-40.4 74l0 1.4c0 17.7 14.3 32 32 32s32-14.3 32-32l0-1.4c0-8.2 4.2-15.8 11-20.2l42.2-27.1c36.6-23.6 58.8-64.1 58.8-107.7l0-3.6c0-70.7-57.3-128-128-128l-32 0C73.3 32 16 89.3 16 160c0 17.7 14.3 32 32 32s32-14.3 32-32zm80 320a40 40 0 1 0 0-80 40 40 0 1 0 0 80z"/></svg>
+                                4
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 512"  with="100px" height="100px"> <path d="M48 80a48 48 0 1 1 96 0A48 48 0 1 1 48 80zM0 224c0-17.7 14.3-32 32-32l64 0c17.7 0 32 14.3 32 32l0 224 32 0c17.7 0 32 14.3 32 32s-14.3 32-32 32L32 512c-17.7 0-32-14.3-32-32s14.3-32 32-32l32 0 0-192-32 0c-17.7 0-32-14.3-32-32z"/></svg>
+                                3
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"  with="100px" height="100px"> <path d="M352 320c88.4 0 160-71.6 160-160c0-15.3-2.2-30.1-6.2-44.2c-3.1-10.8-16.4-13.2-24.3-5.3l-76.8 76.8c-3 3-7.1 4.7-11.3 4.7L336 192c-8.8 0-16-7.2-16-16l0-57.4c0-4.2 1.7-8.3 4.7-11.3l76.8-76.8c7.9-7.9 5.4-21.2-5.3-24.3C382.1 2.2 367.3 0 352 0C263.6 0 192 71.6 192 160c0 19.1 3.4 37.5 9.5 54.5L19.9 396.1C7.2 408.8 0 426.1 0 444.1C0 481.6 30.4 512 67.9 512c18 0 35.3-7.2 48-19.9L297.5 310.5c17 6.2 35.4 9.5 54.5 9.5zM80 408a24 24 0 1 1 0 48 24 24 0 1 1 0-48z"/></svg>
+2
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"  with="100px" height="100px"> <path d="M384 480l48 0c11.4 0 21.9-6 27.6-15.9l112-192c5.8-9.9 5.8-22.1 .1-32.1S555.5 224 544 224l-400 0c-11.4 0-21.9 6-27.6 15.9L48 357.1 48 96c0-8.8 7.2-16 16-16l117.5 0c4.2 0 8.3 1.7 11.3 4.7l26.5 26.5c21 21 49.5 32.8 79.2 32.8L416 144c8.8 0 16 7.2 16 16l0 32 48 0 0-32c0-35.3-28.7-64-64-64L298.5 96c-17 0-33.3-6.7-45.3-18.7L226.7 50.7c-12-12-28.3-18.7-45.3-18.7L64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l23.7 0L384 480z"/></svg>
+                                1
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" with="100px" height="100px"><path d="M64 64C28.7 64 0 92.7 0 128L0 384c0 35.3 28.7 64 64 64l448 0c35.3 0 64-28.7 64-64l0-256c0-35.3-28.7-64-64-64L64 64zm16 64l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zM64 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm16 80l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zm80-176c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm16 80l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zM160 336c0-8.8 7.2-16 16-16l224 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-224 0c-8.8 0-16-7.2-16-16l0-32zM272 128l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zM256 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM368 128l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zM352 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zM464 128l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16zM448 240c0-8.8 7.2-16 16-16l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32zm16 80l32 0c8.8 0 16 7.2 16 16l0 32c0 8.8-7.2 16-16 16l-32 0c-8.8 0-16-7.2-16-16l0-32c0-8.8 7.2-16 16-16z"/></svg>
+
+                                </div>
+
+                                <div class="dropdown-divider"></div>
+
+                                <i class="far fa-keyboard"></i>
+
+                               
+                                <i class="far fa-accessible-icon"> </i>
+                                <i class="fas fa-accusoft"> </i>
+                                <i class="far fa-address-book"> </i>
+                                <i class="far fa-address-card"> </i>
+                                <i class="fas fa-angle-double-down"> </i>
+                                <i class="fas fa-calculator"> </i>
+                                <i class="fas fa-user"></i>
+                                <i class="far custom-control-input"></i>
+
+
+                                <svg
+                                aria-hidden="true"
+                                data-prefix="fas"
+                                data-icon="kiwi-bird"
+                                role="img"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 576 512"
+                                class="svg-inline--fa fa-kiwi-bird fa-w-18 fa-2x"
+                                data-fa-i2svg
+                                >
+                                <path
+                                    fill="currentColor"
+                                    d="M575.81 217.98C572.64 157.41 518.28 112 457.63 112h-9.37c-52.82 0-104.25-16.25-147.74-46.24-41.99-28.96-96.04-41.62-153.21-28.7C129.3 41.12-.08 78.24 0 224c.04 70.95 38.68 132.8 95.99 166.01V464c0 8.84 7.16 16 16 16h16c8.84 0 16-7.16 16-16v-54.26c15.36 3.96 31.4 6.26 48 6.26 5.44 0 10.68-.73 16-1.18V464c0 8.84 7.16 16 16 16h16c8.84 0 16-7.16 16-16v-59.43c14.24-5.06 27.88-11.39 40.34-19.51C342.07 355.25 393.86 336 448.46 336c25.48 0 16.01-.31 23.05-.78l74.41 136.44c2.86 5.23 8.3 8.34 14.05 8.34 1.31 0 2.64-.16 3.95-.5 7.09-1.8 12.05-8.19 12.05-15.5 0 0 .14-240.24-.16-246.02zM463.97 248c-13.25 0-24-10.75-24-24 0-13.26 10.75-24 24-24s24 10.74 24 24c0 13.25-10.75 24-24 24zm80 153.25l-39.86-73.08c15.12-5.83 28.73-14.6 39.86-25.98v99.06z"
+                                ></path>
+                                </svg>
+                                <i class="fas fa-kiwi-bird"></i>
+
+
+                                <div    >
+                                    <canvas id="myChart"></canvas>
+                                  </div>
+                                  
+
+
+
+
+
+                                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-2 py-3">
+                                    <div class="col d-flex align-items-start">
+
+                                        <i class="bi text-body-secondary flex-shrink-0 me-3 far fa-edit" width="1.75em" height="1.75em"> </i> 
+                                      
+                                      <div>
+                                        <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">1</h3>
+                                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                                      </div>
+                                    </div>
+                                    <div class="col d-flex align-items-start">                                    
+                                      <svg class="bi text-body-secondary flex-shrink-0 me-3" viewBox="0 0 448 512" with="1.75em" height="1.75em" aria-hidden="true"> <path d="M448 80l0 48c0 44.2-100.3 80-224 80S0 172.2 0 128L0 80C0 35.8 100.3 0 224 0S448 35.8 448 80zM393.2 214.7c20.8-7.4 39.9-16.9 54.8-28.6L448 288c0 44.2-100.3 80-224 80S0 332.2 0 288L0 186.1c14.9 11.8 34 21.2 54.8 28.6C99.7 230.7 159.5 240 224 240s124.3-9.3 169.2-25.3zM0 346.1c14.9 11.8 34 21.2 54.8 28.6C99.7 390.7 159.5 400 224 400s124.3-9.3 169.2-25.3c20.8-7.4 39.9-16.9 54.8-28.6l0 85.9c0 44.2-100.3 80-224 80S0 476.2 0 432l0-85.9z"/></svg>                                      
+                                      <div>
+                                        <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">2</h3>
+                                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                                      </div>
+                                    </div>
+                                    <div class="col d-flex align-items-center">                                      
+                                      <svg class="bi text-body-secondary flex-shrink-0 me-3" viewBox="0 0 576 512" width="1.75em" height="1.75em" aria-hidden="true"> <path d="M384 480l48 0c11.4 0 21.9-6 27.6-15.9l112-192c5.8-9.9 5.8-22.1 .1-32.1S555.5 224 544 224l-400 0c-11.4 0-21.9 6-27.6 15.9L48 357.1 48 96c0-8.8 7.2-16 16-16l117.5 0c4.2 0 8.3 1.7 11.3 4.7l26.5 26.5c21 21 49.5 32.8 79.2 32.8L416 144c8.8 0 16 7.2 16 16l0 32 48 0 0-32c0-35.3-28.7-64-64-64L298.5 96c-17 0-33.3-6.7-45.3-18.7L226.7 50.7c-12-12-28.3-18.7-45.3-18.7L64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l23.7 0L384 480z"/></svg>
+
+                                      <div>
+                                        <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
+                                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                                      </div>
+                                    </div>
+                                    <div class="col d-flex align-items-md-start">                                    
+                                      <svg class="bi text-body-secondary flex-shrink-0 me-3" viewBox="0 0 384 512"  width="1.75em" height="1.75em" aria-hidden="true"> <path d="M192 0C139 0 96 43 96 96l0 160c0 53 43 96 96 96s96-43 96-96l0-160c0-53-43-96-96-96zM64 216c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 89.1 66.2 162.7 152 174.4l0 33.6-48 0c-13.3 0-24 10.7-24 24s10.7 24 24 24l72 0 72 0c13.3 0 24-10.7 24-24s-10.7-24-24-24l-48 0 0-33.6c85.8-11.7 152-85.3 152-174.4l0-40c0-13.3-10.7-24-24-24s-24 10.7-24 24l0 40c0 70.7-57.3 128-128 128s-128-57.3-128-128l0-40z"/></svg>
+                                      <div>
+                                        <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured 4</h3>
+                                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                                      </div>
+                                    </div>
+                                    <div class="col d-flex align-items-start">
+                                      <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em" aria-hidden="true"><use xlink:href="#speedometer2"/></svg>
+                                      <div>
+                                        <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
+                                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                                      </div>
+                                    </div>
+                                    <div class="col d-flex align-items-start">
+                                      <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em" aria-hidden="true"><use xlink:href="#toggles2"/></svg>
+                                      <div>
+                                        <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
+                                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                                      </div>
+                                    </div>
+                                    <div class="col d-flex align-items-start">
+                                      <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em" aria-hidden="true"><use xlink:href="#geo-fill"/></svg>
+                                      <div>
+                                        <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
+                                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                                      </div>
+                                    </div>
+                                    <div class="col d-flex align-items-start">
+                                      <svg class="bi text-body-secondary flex-shrink-0 me-3" width="1.75em" height="1.75em" aria-hidden="true"><use xlink:href="#tools"/></svg>
+                                      <div>
+                                        <h3 class="fw-bold mb-0 fs-4 text-body-emphasis">Featured title</h3>
+                                        <p>Paragraph of text beneath the heading to explain the heading.</p>
+                                      </div>
+                                    </div>
+                                  </div>
+
+
+
+
+
+                                <div class="container px-4 py-5" id="hanging-icons">
+                                    <h2 class="pb-2 border-bottom">Hanging icons</h2>
+                                    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+                                      <div class="col d-flex align-items-start">
+                                        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                                          <svg class="bi" width="1em" height="1em" aria-hidden="true"><use xlink:href="#toggles2"/></svg>
+                                          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"  with="50px" height="50px"> <path d="M384 480l48 0c11.4 0 21.9-6 27.6-15.9l112-192c5.8-9.9 5.8-22.1 .1-32.1S555.5 224 544 224l-400 0c-11.4 0-21.9 6-27.6 15.9L48 357.1 48 96c0-8.8 7.2-16 16-16l117.5 0c4.2 0 8.3 1.7 11.3 4.7l26.5 26.5c21 21 49.5 32.8 79.2 32.8L416 144c8.8 0 16 7.2 16 16l0 32 48 0 0-32c0-35.3-28.7-64-64-64L298.5 96c-17 0-33.3-6.7-45.3-18.7L226.7 50.7c-12-12-28.3-18.7-45.3-18.7L64 32C28.7 32 0 60.7 0 96L0 416c0 35.3 28.7 64 64 64l23.7 0L384 480z"/></svg>
+                                        </div>
+                                        <div>
+                                          <h3 class="fs-2 text-body-emphasis">Featured title</h3>
+                                          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                                          <a href="#" class="btn btn-primary">
+                                            Primary button
+                                          </a>
+                                        </div>
+                                      </div>
+                                      <div class="col d-flex align-items-start">
+                                        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                                          <svg class="bi" width="1em" height="1em" aria-hidden="true"><use xlink:href="#cpu-fill"/></svg>
+                                        </div>
+                                        <div>
+                                          <h3 class="fs-2 text-body-emphasis">Featured title</h3>
+                                          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                                          <a href="#" class="btn btn-primary">
+                                            Primary button
+                                          </a>
+                                        </div>
+                                      </div>
+                                      <div class="col d-flex align-items-start">
+                                        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                                          <svg class="bi" width="1em" height="1em" aria-hidden="true"><use xlink:href="#tools"/></svg>
+                                        </div>
+                                        <div>
+                                          <h3 class="fs-2 text-body-emphasis">Featured title</h3>
+                                          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                                          <a href="#" class="btn btn-primary">
+                                            Primary button
+                                          </a>
+                                        </div>
+                                      </div>
+                                      <div class="col d-flex align-items-start">
+                                        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                                          <svg class="bi" width="1em" height="1em" aria-hidden="true"><use xlink:href="#tools"/></svg>
+                                        </div>
+                                        <div>
+                                          <h3 class="fs-2 text-body-emphasis">Featured title</h3>
+                                          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                                          <a href="#" class="btn btn-primary">
+                                            Primary button
+                                          </a>
+                                        </div>
+                                      </div>
+                                      <div class="col d-flex align-items-start">
+                                        <div class="icon-square text-body-emphasis bg-body-secondary d-inline-flex align-items-center justify-content-center fs-4 flex-shrink-0 me-3">
+                                          <svg class="bi" width="1em" height="1em" aria-hidden="true"><use xlink:href="#tools"/></svg>
+                                        </div>
+                                        <div>
+                                          <h3 class="fs-2 text-body-emphasis">Featured title</h3>
+                                          <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
+                                          <a href="#" class="btn btn-primary">
+                                            Primary button
+                                          </a>
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                  </div>
+
+
+
+                                <!-- <div class="row">
+                                    <div class="col">
+                                        <button type="submit" class="btn btn-danger">
+                                            <span class="fa fa-save"></span> 
+                                            Guardar
+                                        </button>
+                                        <a type="button" class="btn btn-success" href="{% url 'srv:servicio_list' %}">
+                                            Cancelar
+                                        </a>
+                                    </div>
+                                </div> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+
+
+      
+
+
+    </div>
+</div>
+
+{% endblock %}
+
+{% block js_page %}
+
+<script>
+  const ctx = document.getElementById('myChart');
+
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 19, 3, 5, 2, 3],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
+
+</script>
+
+
+<script>
+    $(function () {
+        // $("#sidebarToggle").click();  
+        $("#id_vehiculo").val("{{ obj.vehiculo.placa }}").change();
+        // $("#id_fecha").val("{{ obj.fecha|date:'d/m/Y' }}");
+
+        if ("{{request.user.is_superuser}}" === "False"){            
+            $("#id_estado_aceptacion").attr({hidden: true});
+            $("#id_estado_label").attr({hidden: true});
+            // $('#id_vehiculo option').attr('disabled', 'disabled');
+            $('#id_vehiculo_label').hide();
+            $('#id_vehiculo').hide();
+        }
+    });
+
+    $("#id_fecha").datetimepicker({
+        format: 'd/m/Y H:i:s',
+        timepicker:true ,
+        // defaultDate:new Date(),
+        // minDate: 0, /** AAAA,MM,DD Fecha inicio */
+        // maxDate: new Date( new Date().getFullYear(), 12, 31),
+    });  
+</script>
+
+{% endblock %}
+

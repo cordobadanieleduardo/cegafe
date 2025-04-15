@@ -1,0 +1,32 @@
+{% load static %}
+<div >
+    <div>
+        <div >
+            <h4 class="modal-title">Servicio, {{obj.id}} <span> </span></h4>
+            <button type="button" class="close" onclick="return cerrar_modal()">&times;</button>
+        </div>
+        {{obj.fecha}}
+        {{obj.content}}
+        <div >
+            <!-- <picture>
+
+            </picture> -->
+        </div>
+        <div >
+            <button onclick="return cerrar_modal()" type="button" class="btn btn-success"
+                data-dismiss="modal">Cerrrar</button>
+        </div>
+    </div>
+</div>
+
+
+{% block js_page %}
+
+
+<script>
+    $(function () {
+        // console.log("{{obj}}")
+    });
+</script>
+
+{% endblock %}

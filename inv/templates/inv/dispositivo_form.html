@@ -1,0 +1,287 @@
+{% extends 'base/base.html' %}
+{% block page_content %}
+<form method="POST" >
+    {% csrf_token %}
+    <div class="col-xl-12 col-md-12 mb-6">
+        {% if obj %}
+        <div class="card border-left-warning shadow h-100 py-2">
+        {% else %}
+        <div class="card border-left-success shadow h-100 py-2">
+        {% endif %}
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                            {% if obj %} Editar {% else %} Nueva {% endif %} equipo tecnológico
+                        </div>
+
+                        <div class="dropdown-divider"></div>
+
+
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger">
+                                    <span class="fa fa-save"></span> Guardar
+                                </button>
+                                <a href="{% url 'inv:dispositivo_list' %}" class="btn btn-success">
+                                    <span class="fa fa-undo"></span> Cancelar
+                                </a>
+                            </div>
+                        </div>
+
+                        <div class="dropdown-divider"></div>
+                        
+                        <div class="row">                            
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.fecha.label}}
+                                    {{form.fecha}}
+                                </div>
+                            </div> 
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-group">
+                                    {{form.descripcion.label}}
+                                    {{form.descripcion}}
+                                    <!-- <input type="text" name="descripcion" maxlength="50" 
+                                    class="form-control" required id="id_descripcion" placeholder="Descripción"
+                                    value="{#% if obj %#} {#{ obj.descripcion }#} {#% endif %#}"> -->
+                                </div>
+                            </div>
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">
+                                    {{form.descripcionActual.label}}
+                                    {{form.descripcionActual}}
+                                </div>
+                            </div>
+                            
+                            <div class="col-lg-1 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.estado.label}}
+                                    {{form.estado}}
+                                </div>
+                            </div> 
+                            <div class="col-lg-2 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.placa.label}}:
+                                    {{form.placa}}
+                                </div>
+                            </div> 
+                            <div class="col-lg-2 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.placa6.label}}:
+                                    {{form.placa6}}
+                                </div>
+                            </div> 
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.serial.label}}:
+                                    {{form.serial}}
+                                </div>
+                            </div> 
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.modelo.label}}:
+                                    {{form.modelo}}
+                                </div>
+                            </div> 
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.type.label}}:
+                                    {{form.type}}
+                                </div>
+                            </div> 
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.persona.label}}:
+                                    {{form.persona}}
+                                </div>
+                            </div> 
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.cuentadanteNumber.label}}:
+                                    {{form.cuentadanteNumber}}
+                                </div>
+                            </div> 
+
+                            <div class="col-lg-2 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.tipoElemento.label}}
+                                    {{form.tipoElemento}}
+                                </div>
+                            </div> 
+                            
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.salon.label}}:
+                                    {{form.salon}}
+                                </div>
+                            </div> 
+
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.ubicacion.label}}:
+                                    {{form.ubicacion}}
+                                </div>
+                            </div> 
+
+
+                            <div class="col-lg-2 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.unidad.label}}:
+                                    {{form.unidad}}
+                                </div>
+                            </div> 
+
+                            
+                            <div class="col-lg-2 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.discoDuro.label}}:
+                                    {{form.discoDuro}}
+                                </div>
+                            </div> 
+
+                            <div class="col-lg-2 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.memoria.label}}:
+                                    {{form.memoria}}
+                                </div>
+                            </div> 
+                            <div class="col-lg-2 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.ram.label}}:
+                                    {{form.ram}}
+                                </div>
+                            </div> 
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.pantalla.label}}:
+                                    {{form.pantalla}}
+                                </div>
+                            </div> 
+
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.procesador.label}}:
+                                    {{form.procesador}}
+                                </div>
+                            </div> 
+
+                            <div class="col-lg-3 col-md-12">
+                                <div class="form-group">                                    
+                                    {{form.unidadLectora.label}}:
+                                    {{form.unidadLectora}}
+                                </div>
+                            </div> 
+
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.marca.label}}:
+                                    {{form.marca}}
+                                </div>
+                            </div> 
+
+                            
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.sistemaOperativo.label}}:
+                                    {{form.sistemaOperativo}}
+                                </div>
+                            </div> 
+
+
+                            <div class="col-lg-2 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.guayaSeguridad.label}}:
+                                    {{form.guayaSeguridad}}
+                                </div>
+                            </div> 
+
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.mouse.label}}:
+                                    {{form.mouse}}
+                                </div>
+                            </div> 
+
+
+                            <div class="col-lg-4">
+                                <div class="form-group">                                    
+                                    {{form.observaciones.label}}:
+                                    {{form.observaciones}}
+                                </div>
+                            </div> 
+
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.status.label}}:
+                                    {{form.status}}
+                                </div>
+                            </div> 
+
+
+                            <div class="col-lg-3 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.regional.label}}:
+                                    {{form.regional}}
+                                </div>
+                            </div> 
+
+                            
+                            <div class="col-lg-6 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.attribute.label}}:
+                                    {{form.attribute}}
+                                </div>
+                            </div> 
+
+                               
+                            <div class="col-lg-2 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.types.label}}:
+                                    {{form.types}}
+                                </div>
+                            </div> 
+
+                            <div class="col-lg-2 col-md-6">
+                                <div class="form-group">                                    
+                                    {{form.valor.label}}:
+                                    {{form.valor}}
+                                </div>
+                            </div> 
+                            
+                            
+                            
+                            
+
+                        </div>
+
+                        <div class="dropdown-divider"></div>
+
+
+                        <div class="row">
+                            <div class="col">
+                                <button type="submit" class="btn btn-danger">
+                                    <span class="fa fa-save"></span> Guardar
+                                </button>
+                                <a href="{% url 'inv:dispositivo_list' %}" class="btn btn-success">
+                                    <span class="fa fa-undo"></span> Cancelar
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+{% block js_page %}
+<script>
+     $("#id_fecha").datetimepicker({
+        format: 'd/m/Y',
+        timepicker:false, 
+    });
+</script>
+{% endblock %}
